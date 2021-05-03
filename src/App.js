@@ -1,24 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import AppRouter from './route'
+import { Provider as ReduxProvider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import configureStore from './store/configureStore';
+const { persistor, store } = configureStore();
 
-function App() {
+const ActivityLoader =() =>{
+  return(
+    <h1>Loading ................</h1>
+  )
+}
+
+
+function App({...props}) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ReduxProvider store={store}>
+        <PersistGate
+          loading={<ActivityLoader/>}
+          persistor={persistor}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+                <AppRouter/>
+        </PersistGate>
+      </ReduxProvider>
+ 
   );
 }
 
